@@ -7,9 +7,13 @@
 
                     function check(){
 
+                        var repoURL = document.getElementById("repoURL").value;
+                        
+                        if(repoURL=="")
+                            return;
+
                         document.getElementById("result").innerHTML = "<br/>Checking...";
 
-                        var repoURL = document.getElementById("repoURL").value;
                         console.log("Checking "+repoURL+"!!");
 
                         const data = { repoList: [repoURL] };
@@ -80,6 +84,14 @@
                     function clearResult(){
                         document.getElementById("result").innerHTML = "";
                     }
+
+                    window.addEventListener("load", function(){
+                        console.log("DOcument loaded!");
+                        document.getElementById("repoURL").focus();    
+                        document.getElementById("result").innerHTML = "e.g. https://github.com/cesgarpas/eagle-testing"
+                    });
+                    
+
             </script>  
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">    
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
@@ -87,7 +99,7 @@
     <body style="font-family: 'Roboto Mono', monospace;">
         <div style="margin:2%">
             <div class="form-inline">
-                <input id="repoURL" class="form-control" style="width:75%" placeholder="Github repo URL" onkeyup="sendclick(event)" value="https://github.com/cesgarpas/eagle-testing">    
+                <input id="repoURL" class="form-control" style="width:75%" placeholder="Github repo URL" onkeyup="sendclick(event)">    
                 <button id="btnCheck" class="btn btn-outline-info" type="submit" onsubmit="check()" onclick="check()">Check</button>    
             </div>
             <div id="result">

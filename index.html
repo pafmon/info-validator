@@ -45,10 +45,10 @@
                         if(result.code==200 && result.message.errorProjects.length==1){
                             var err = result.message.errorProjects[0].errors;
                             if( (err.missingValues.length == 0) && (err.wrongFormatValues.length == 0) && (err.invalidApiValues.length == 0)    ){
-                                resultHTML = "<br/><strong>Yay!! That repo has valid <span style='color:blue'>bluejay</span> info.yaml 😊</strong><br/>"
+                                resultHTML = "<br/><strong>Yay!! That repo has a valid <span style='color:blue'>bluejay</span> info.yaml 😊</strong><br/>"
 
                             }else{
-                                resultHTML = "<br/><strong>Ups!! That repo hasn't valid bluejay info.yaml 😔</strong><br/>";
+                                resultHTML = "<br/><strong>Ups!! That repo hasn't a valid bluejay info.yaml 😔</strong><br/>";
                                 resultHTML += "<br/>Errors found:<ul>";
 
                                 err.missingValues.forEach((e) =>{

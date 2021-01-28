@@ -1,0 +1,36 @@
+
+    <html>
+        <head>
+            <title>info.yml validator</title>
+            <meta name="mobile-web-app-capable" content="yes">
+            <script>
+                    function check(){
+                        clearResult();
+                        var repoURL = document.getElementById("repoURL").value;
+                        console.log("Checking "+repoURL+"!!");
+                        showResult("Checking "+repoURL+"!!")
+                    }
+
+                    function showResult(result){
+                        document.getElementById("result").innerHTML = result;
+                        document.getElementById("result").style.display = "block";
+
+                    }
+                    function clearResult(){
+                        showResult("");
+                    }
+            </script>  
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">    
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+    </head>
+    <body style="font-family: 'Roboto Mono', monospace; text-align: center;">
+        <div>
+            <div class="form-inline">
+                 <input id="repoURL" class="form-control" placeholder="Github repo URL"">    
+                <button id="btnValid" class="btn btn-outline-info" onclick="check()">Reset</button>
+            </div>
+            <div id="result">
+            </div>
+        </div>
+        
+    </body>

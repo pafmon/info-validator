@@ -4,30 +4,91 @@
             <title>info.yml validator</title>
             <meta name="mobile-web-app-capable" content="yes">
             <script>
+
                     function check(){
-                        clearResult();
+
+                        document.getElementById("result").innerHTML = "<br/>Checking...";
+
                         var repoURL = document.getElementById("repoURL").value;
                         console.log("Checking "+repoURL+"!!");
-                        showResult("Checking "+repoURL+"!!")
+
+                        const data = { repoList: [repoURL] };
+
+                        fetch('https://scopes.bluejay.governify.io/api/v1/scopes/development/check', {
+                            method: 'POST', 
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            showResult(data);
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                            showResult(error);
+                        });
+                    }
+
+                    function sendclick(event) {
+                        if (event.keyCode === 13) {
+                            event.preventDefault();
+                            document.getElementById("btnCheck").click();
+                        }
                     }
 
                     function showResult(result){
-                        document.getElementById("result").innerHTML = result;
-                        document.getElementById("result").style.display = "block";
 
+
+                        var resultHTML = "";
+                        if(result.code==200 && result.message.errorProjects.length==1){
+                            var err = result.message.errorProjects[0].errors;
+                            if( (err.missingValues.length == 0) && (err.wrongFormatValues.length == 0) && (err.invalidApiValues.length == 0)    ){
+                                resultHTML = "<br/><strong>Yay! That repo has valid info.yaml 😊</strong><br/>"
+
+                            }else{
+                                resultHTML = "<br/><strong>Ups That repo hasn't valid info.yaml 😔</strong><br/>";
+                                resultHTML += "<br/>Errors found:<ul>";
+
+                                err.missingValues.forEach((e) =>{
+                                    resultHTML += "<li>"+e+"</li>";
+                                });
+
+                                err.wrongFormatValues.forEach((e) =>{
+                                    resultHTML += "<li>"+e+"</li>";
+                                });
+
+                                err.invalidApiValues.forEach((e) =>{
+                                    resultHTML += "<li>"+e+"</li>";
+                                });
+                                resultHTML += "</ul>";
+
+                            }
+
+
+                        }else{
+                            resultHTML = "<br/>There is a problem with the validator, please contact admin";
+                            console.log("Unexpected result from checker:");
+                            console.log(JSON.stringify(result,null,2));
+                        }
+
+                        document.getElementById("result").innerHTML = resultHTML;
+
+                        return false;
                     }
                     function clearResult(){
-                        showResult("");
+                        document.getElementById("result").innerHTML = "";
                     }
             </script>  
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">    
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
     </head>
-    <body style="font-family: 'Roboto Mono', monospace; text-align: center;">
-        <div>
+    <body style="font-family: 'Roboto Mono', monospace;">
+        <div style="margin:2%">
             <div class="form-inline">
-                 <input id="repoURL" class="form-control" placeholder="Github repo URL"">    
-                <button id="btnValid" class="btn btn-outline-info" onclick="check()">Reset</button>
+                <input id="repoURL" class="form-control" style="width:75%" placeholder="Github repo URL" onkeyup="sendclick(event)" value="https://github.com/cesgarpas/eagle-testing">    
+                <button id="btnCheck" class="btn btn-outline-info" type="submit" onsubmit="check()" onclick="check()">Check</button>    
             </div>
             <div id="result">
             </div>

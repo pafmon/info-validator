@@ -52,8 +52,8 @@
                                 resultHTML = "<br/><strong>Yay!! That repo has a valid <span style='color:blue'>bluejay</span> info.yaml 😊</strong><br/>"
 
                             }else{
-                                resultHTML = "<br/><strong>Ups!! That repo hasn't a valid bluejay info.yaml 😔</strong><br/>";
-                                resultHTML += "<br/>Errors found:<ul>";
+                                resultHTML = "<br/><strong>Ups!! There is no valid bluejay info.yaml 😔</strong><br/>";
+                                resultHTML += "<br/>Error(s) found:<ul>";
 
                                 err.missingValues.forEach((e) =>{
                                     resultHTML += "<li>"+e+"</li>";

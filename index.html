@@ -46,24 +46,16 @@
 
 
                         var resultHTML = "";
-                        if(result.code==200 && result.message.errorProjects.length==1){
-                            var err = result.message.errorProjects[0].errors;
-                            if( (err.missingValues.length == 0) && (err.wrongFormatValues.length == 0) && (err.invalidApiValues.length == 0)    ){
+                        if(result.code==200 && result.projects.length == 1){
+                            var err = result.projects[0].errors;
+                            if( (err.length == 0)){
                                 resultHTML = "<br/><strong>Yay!! That repo has a valid <span style='color:blue'>bluejay</span> info.yaml 😊</strong><br/>"
 
                             }else{
                                 resultHTML = "<br/><strong>Ups!! There is a problem! 😔</strong><br/>";
+
                                 resultHTML += "<br/>Error(s) found:<ul>";
-
-                                err.missingValues.forEach((e) =>{
-                                    resultHTML += "<li>"+e+"</li>";
-                                });
-
-                                err.wrongFormatValues.forEach((e) =>{
-                                    resultHTML += "<li>"+e+"</li>";
-                                });
-
-                                err.invalidApiValues.forEach((e) =>{
+                                err.forEach((e) =>{
                                     resultHTML += "<li>"+e+"</li>";
                                 });
                                 resultHTML += "</ul>";
@@ -86,7 +78,7 @@
                     }
 
                     window.addEventListener("load", function(){
-                        console.log("DOcument loaded!");
+                        console.log("Document loaded!");
                         document.getElementById("repoURL").focus();    
                         document.getElementById("result").innerHTML = "e.g. https://github.com/cesgarpas/eagle-testing"
                     });
